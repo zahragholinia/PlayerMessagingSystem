@@ -2,9 +2,9 @@ package singleProcess;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.BlockingQueue;
+
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * The singleProcess.Player class represents a player in the messaging system.
@@ -21,13 +21,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Player implements Runnable {
     /**
-     * A blocking deque to store messages for each player.
+     * A blocking queue to store messages for each player.
      * Each player has its own queue to maintain thread safety , message order.
-     * The `BlockingDeque` is used because it provides thread-safe operations for adding and removing messages
-     * from both ends of the deque.This guarantees that no messages are lost and ensures proper synchronization between
+     * The `BlockingQueue` is used because it provides thread-safe operations for adding and removing messages.
+     * This guarantees that no messages are lost and ensures proper synchronization between
      * threads.
      */
-    private final BlockingDeque<Message> queue = new LinkedBlockingDeque<>();
+    private final BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
     /**
      * An atomic counter that tracks the number of messages sent by the player.
      * Ensures thread-safe increments.
