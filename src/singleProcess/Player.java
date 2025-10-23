@@ -1,3 +1,5 @@
+package singleProcess;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingDeque;
@@ -5,7 +7,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * The Player class represents a player in the messaging system.
+ * The singleProcess.Player class represents a player in the messaging system.
  * Each player can send and receive messages from other players.
  * The system ensures that each player can send a maximum of 10 messages
  * before the process terminates.

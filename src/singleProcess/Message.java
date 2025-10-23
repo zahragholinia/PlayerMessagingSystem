@@ -1,5 +1,7 @@
+package singleProcess;
+
 /**
- * The Message class represents a message sent from one player to another.
+ * The singleProcess.Message class represents a message sent from one player to another.
  * It contains the message content and the player who sent the message.
  * Responsibilities:
  * 1. Hold the message content.
