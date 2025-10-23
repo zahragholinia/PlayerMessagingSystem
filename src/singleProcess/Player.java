@@ -32,7 +32,7 @@ public class Player implements Runnable {
      * An atomic counter that tracks the number of messages sent by the player.
      * Ensures thread-safe increments.
      */
-    private final AtomicInteger messagesCount = new AtomicInteger(0);
+    private  int messagesCount = 0;
     private static final int MAX_MESSAGES = 10;
 
 
@@ -48,7 +48,7 @@ public class Player implements Runnable {
      */
     public void sendMessage(String message, List<Player> recipient) throws InterruptedException {
         for (Player p : recipient) {
-            Message message1 = new Message(message + (messagesCount.addAndGet(1)), this);
+            Message message1 = new Message(message + messagesCount++, this);
             p.queue.put(message1);
         }
 
@@ -63,7 +63,7 @@ public class Player implements Runnable {
      * @throws InterruptedException If the thread is interrupted while waiting to process the message.
      */
     public synchronized void receiveMessage(Message message) throws InterruptedException {
-        messagesCount.incrementAndGet();
+        messagesCount++;
         System.out.println(message.getMessage());
         sendMessage(message.getMessage(), Collections.singletonList(message.getFromPlayer()));
 
@@ -82,7 +82,7 @@ public class Player implements Runnable {
 
     @Override
     public void run() {
-        while (messagesCount.get() < MAX_MESSAGES) {
+        while (messagesCount < MAX_MESSAGES) {
             try {
                 Message message = queue.take();
                 receiveMessage(message);
