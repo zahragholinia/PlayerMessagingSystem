@@ -34,4 +34,7 @@ This project simulates a messaging system where two players (instances of the `P
 
 * Every class will be thoroughly documented with clear responsibilities and design decisions.
 
+### 7. **opposite to 4: have every player in a separate JAVA process (different PID).**
+
+
 ---
