@@ -36,5 +36,11 @@ This project simulates a messaging system where two players (instances of the `P
 
 ### 7. **opposite to 4: have every player in a separate JAVA process (different PID).**
 
+# Usage Instructions
+## For single-process mode
+./run.sh SingleProcessPlayer
+
+## For multi-process mode
+./run.sh NetworkPlayer
 
 ---
