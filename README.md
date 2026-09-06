@@ -1,46 +1,83 @@
 # Player Messaging System
 
-## Overview
+A Java-based messaging system demonstrating **concurrency, thread-safe communication, TCP networking, and inter-process messaging**.
 
-This project simulates a messaging system where two players (instances of the `Player` class) can communicate with each other in a simple message-passing system. The goal is to design a system where players can send and receive messages in a loop until a specific condition is met. The system will be implemented using **pure Java** (without additional frameworks such as Spring), and both players will initially run in the **same process**. In a later phase, each player will run in its own separate Java process.
+The project implements the same messaging abstraction in two different execution models:
 
-## Requirements
+* **Single-process communication** using threads and a `BlockingQueue`
+* **Inter-process communication** using TCP sockets
 
-### 1. **Create Two Players**
+The goal is to demonstrate how the same domain model can support different communication mechanisms while keeping the player abstraction consistent.
 
-* Two instances of the `Player` class must be created.
-* One of the players will act as the "initiator" that starts the communication.
+## Architecture
 
-### 2. **Message Flow**
+The system is built around an abstract `Player` component that defines the messaging lifecycle.
 
-* The initiator sends a message to the second player.
-* When a player receives a message, it appends the message counter and sends the updated message back.
-* The communication continues until the initiator has sent 10 messages and received 10 messages, at which point the program will stop.
+Two implementations provide different communication mechanisms:
 
-### 3. **Graceful Termination**
+* `SingleProcessPlayer` — communicates through an in-memory `BlockingQueue`
+* `NetworkPlayer` — communicates through TCP sockets
 
-* The program should gracefully terminate after the initiator sends and receives 10 messages.
+Both implementations support sending, receiving, message counting, and graceful shutdown.
 
-### 4. **Running in the Same Java Process (Initial Phase)**
+## Key Concepts
 
-* Both players should run in the same Java process during the initial phase of the project.
+This project demonstrates practical Java concepts including:
 
-### 5. **Maven Project**
+* Multithreading and concurrency
+* Producer-consumer communication
+* Thread-safe data structures with `BlockingQueue`
+* Synchronization and atomic variables
+* TCP socket communication
+* Inter-process communication (IPC)
+* Object serialization
+* Graceful resource and thread shutdown
+* Abstraction and separation of communication mechanisms
 
-* This project should be a Maven project with source code only (no packaged JAR files).
-* A shell script will be provided to run the project.
+## Project Structure
 
-### 6. **Documentation**
+```text
+src/main/java/
+├── Message.java
+├── MessageType.java
+├── Player.java
+├── SingleProcessPlayer.java
+├── SingleProcessMain.java
+├── NetworkPlayer.java
+└── NetworkPlayerMain.java
+```
 
-* Every class will be thoroughly documented with clear responsibilities and design decisions.
+## Running the Project
 
-### 7. **opposite to 4: have every player in a separate JAVA process (different PID).**
+### Single Process
 
-# Usage Instructions
-## For single-process mode
+Runs two players as separate threads communicating through an in-memory queue.
+
+```bash
 ./run.sh SingleProcessPlayer
+```
 
-## For multi-process mode
+### Network Mode
+
+Runs players using TCP socket communication.
+
+```bash
 ./run.sh NetworkPlayer
+```
 
----
+The network implementation uses `localhost:8085` for communication.
+
+## Why This Project
+
+This project started as an exploration of different approaches to communication between Java components.
+
+It demonstrates how the communication mechanism can change — from an in-memory queue to TCP sockets — while the core `Player` abstraction remains consistent.
+
+## Technologies
+
+* Java
+* Maven
+* TCP/IP
+* Java Concurrency
+* Sockets
+* Inter-Process Communication
