@@ -19,6 +19,44 @@ Two implementations provide different communication mechanisms:
 * `NetworkPlayer` — communicates through TCP sockets
 
 Both implementations support sending, receiving, message counting, and graceful shutdown.
+## Architecture
+
+The system supports two communication models using the same `Player` abstraction:
+
+```text
+                    ┌─────────────────┐
+                    │     Player      │
+                    │   (Abstract)    │
+                    └────────┬────────┘
+                             │
+                ┌────────────┴────────────┐
+                │                         │
+       ┌────────▼────────┐      ┌────────▼────────┐
+       │ SingleProcess   │      │ NetworkPlayer   │
+       │     Player      │      │                 │
+       └────────┬────────┘      └────────┬────────┘
+                │                         │
+       ┌────────▼────────┐      ┌────────▼────────┐
+       │ BlockingQueue   │      │   TCP Socket    │
+       │  (in-memory)    │      │ (port 8085)     │
+       └────────┬────────┘      └────────┬────────┘
+                │                         │
+          ┌─────▼─────┐            ┌─────▼─────┐
+          │  Player A │            │  Player A │
+          │     ↕     │            │     ↕     │
+          │  Player B │            │  Player B │
+          └───────────┘            └───────────┘
+```
+
+### Communication Models
+
+**Single Process**
+
+Two player instances run as separate threads and exchange messages through a thread-safe `BlockingQueue`.
+
+**Network**
+
+Two player instances communicate through TCP sockets, allowing them to run in separate Java processes.
 
 ## Key Concepts
 
